@@ -37,8 +37,8 @@ cp bin/*.dll lib/
 
 $CURL -O https://raw.githubusercontent.com/phpmlkit/libvips-binaries/main/THIRD-PARTY-NOTICES.md
 
-echo "Creating tarball"
-tar czf /packaging/libvips-${PLATFORM}.tar.gz \
+echo "Creating zip archive"
+zip -r /packaging/libvips-${PLATFORM}.zip \
   include \
   lib/glib-2.0 \
   lib/libvips.lib \
@@ -46,8 +46,8 @@ tar czf /packaging/libvips-${PLATFORM}.tar.gz \
   *.json \
   THIRD-PARTY-NOTICES.md
 
-# Allow tarballs to be read outside container
-chmod 644 /packaging/libvips-${PLATFORM}.tar.*
+# Allow archives to be read outside container
+chmod 644 /packaging/libvips-${PLATFORM}.zip
 
 # Remove working directories
 rm -rf lib include *.json THIRD-PARTY-NOTICES.md

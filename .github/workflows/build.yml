@@ -61,7 +61,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: build-${{ matrix.platform }}
-          path: 'libvips-*.tar.gz'
+          path: 'libvips-*'
           compression-level: 0
           retention-days: 1
 
@@ -83,7 +83,12 @@ jobs:
 
           | Asset | Platform |
           |-------|----------|
-          $(for f in libvips-*.tar.gz; do echo "| \`$f\` | ${f#libvips-} |"; done)
+          $(for f in libvips-*; do
+            p=${f#libvips-}
+            p=${p%.tar.gz}
+            p=${p%.zip}
+            echo "| \`$f\` | ${p} |"
+          done)
           EOF
 
       - name: Create Release
@@ -91,6 +96,6 @@ jobs:
         with:
           tag: ${{ inputs.version }}
           name: "libvips ${{ inputs.version }}"
-          artifacts: 'libvips-*.tar.gz'
+          artifacts: 'libvips-*'
           bodyFile: release-notes.md
           makeLatest: true
